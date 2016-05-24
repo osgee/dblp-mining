@@ -271,7 +271,7 @@ def get_data(type, cached = False, journal=[], **keywords):
         return W_XX, W_XY, W_ZY, W_YY,d_X, d_Y, d_Z
 
 
-def to_csv(W_XY, W_ZY, W_YY,d_X, d_Y, d_Z):
+def to_csv(W_XX, W_XY, W_ZY, W_YY,d_X, d_Y, d_Z):
     d_nodes = {}
     with open('nodes.csv', 'w+') as nodes:
         nodes.write('Id,Label,Modularity Class\n')
@@ -299,23 +299,30 @@ def to_csv(W_XY, W_ZY, W_YY,d_X, d_Y, d_Z):
         index2 = 1
         for r in range(Z_S):
             for c in range(Y_S):
-                if W_ZY[r,c]==1:
+                if W_ZY[r, c] == 1:
                     edges.write(str(r+1)+','+str(c+Z_S+1)+','+'Undirected'+','+str(index2)+','+str(index2)+','+'1\n')
                     index2 +=1
         W_YX = np.transpose(W_XY)
         for r in range(Y_S):
             for c in range(X_S):
-                if W_YX[r,c]==1:
+                if W_YX[r, c] == 1:
                     edges.write(str(r+Z_S+1) + ',' + str(c+Z_S+Y_S+1) + ',' + 'Undirected' + ',' + str(index2) + ',' + str(
                         index2) + ',' + '1\n')
                     index2 += 1
         for r in range(Y_S):
             for c in range(Y_S):
-                if W_YY[r,c]==1:
+                if W_YY[r, c] == 1:
                     edges.write(
                         str(r + Z_S+1) + ',' + str(c + Z_S+1) + ',' + 'Directed' + ',' + str(index2) + ',' + str(
                             index2) + ',' + '1\n')
                     index2 += 1
+        # for r in range(X_S):
+        #     for c in range(X_S):
+        #         if W_XX[r, c] != 0:
+        #             edges.write(
+        #                 str(r + Z_S + Y_S + 1) + ',' + str(c + Z_S + Y_S + 1) + ',' + 'Undirected' + ',' + str(index2) + ',' + str(
+        #                     index2) + ',' + str(W_XX[r, c]) + '\n')
+        #             index2 += 1
 
 
 def init_array(size):
@@ -361,7 +368,7 @@ def sort_print(R, d):
 # W_XX, W_XY, W_ZY, W_YY, d_X, d_Y, d_Z = get_data(type_dblp, False, [22328, 34188, 40186, 7094, 3775, 2435, 19041, 22813, 33069, 12539], cache=False)
 # W_XX, W_XY, W_ZY, W_YY, d_X, d_Y, d_Z = get_data(type_dblp, False, [40218, 14225, 40192, 20596, 1394])
 W_XX, W_XY, W_ZY, W_YY, d_X, d_Y, d_Z = get_data(type_sim, refer=True)
-to_csv(W_XY, W_ZY, W_YY,d_X, d_Y, d_Z)
+to_csv(W_XX, W_XY, W_ZY, W_YY,d_X, d_Y, d_Z)
 
 
 print(W_XX)
